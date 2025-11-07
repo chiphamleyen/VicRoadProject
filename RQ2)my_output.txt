@@ -1,0 +1,50 @@
+indexing accident.csv [==========-----------------------------------------------------------] 80.78GB/s, eta:  0sindexing accident.csv [====================================================================] 703.70MB/s, eta:  0s                                                                                                                 indexing road_surface_cond.csv [============================-------------------------------] 325.52GB/s, eta:  0sindexing road_surface_cond.csv [===========================================================] 450.63MB/s, eta:  0s                                                                                                                 indexing vehicle.csv [======---------------------------------------------------------------] 614.68GB/s, eta:  0sindexing vehicle.csv [=====================================================================] 623.04MB/s, eta:  0s                                                                                                                 [1] "Median speed (used for NA): 60"
+[1] "Median MIN seating (used for NA): 5"
+[1] "Median MAX seating (used for NA): 5"
+[1] "--- Final Model Data Structure ---"
+tibble [183,049 × 7] (S3: tbl_df/tbl/data.frame)
+ $ SEVERITY_CLASS      : Factor w/ 2 levels "Not_Severe","Severe": 2 1 2 2 1 2 1 1 2 1 ...
+ $ is_wet              : logi [1:183049] FALSE FALSE FALSE FALSE FALSE FALSE ...
+ $ is_dark             : logi [1:183049] TRUE TRUE FALSE TRUE FALSE TRUE ...
+ $ is_intersect        : logi [1:183049] FALSE TRUE TRUE FALSE TRUE TRUE ...
+ $ SPEED_ZONE_NUM      : num [1:183049] 100 60 60 50 100 60 80 100 50 60 ...
+ $ MIN_SEATING_CAPACITY: num [1:183049] 5 5 5 5 5 4 5 5 5 5 ...
+ $ MAX_SEATING_CAPACITY: num [1:183049] 5 5 5 5 5 5 5 5 5 5 ...
+ - attr(*, "na.action")= 'omit' Named int [1:4] 114618 131443 146109 154413
+  ..- attr(*, "names")= chr [1:4] "114618" "131443" "146109" "154413"
+[1] "--- Class Distribution ---"
+
+Not_Severe     Severe 
+     68512     114537 
+[1] "--- Training Set Class Counts ---"
+
+Not_Severe     Severe 
+     54751      91688 
+[1] "Smallest class size (for sampling): 54751"
+[1] "--- Model Summary ---"
+
+Call:
+ randomForest(formula = SEVERITY_CLASS ~ ., data = train_set,      ntree = 100, mtry = 2, strata = train_set$SEVERITY_CLASS,      sampsize = rep(min_class_size, n = 2)) 
+               Type of random forest: classification
+                     Number of trees: 100
+No. of variables tried at each split: 2
+
+        OOB estimate of  error rate: 37.18%
+Confusion matrix:
+           Not_Severe Severe class.error
+Not_Severe       4298  50453  0.92149915
+Severe           3994  87694  0.04356077
+[1] "--- Feature Importance ---"
+                     MeanDecreaseGini
+is_wet                       27.87071
+is_dark                      41.89818
+is_intersect                 69.04005
+SPEED_ZONE_NUM              409.34257
+MIN_SEATING_CAPACITY        116.10600
+MAX_SEATING_CAPACITY        144.61157
+[1] "--- Confusion Matrix (Actual vs. Predicted) ---"
+            Predicted
+Actual       Not_Severe Severe
+  Not_Severe       1170  12591
+  Severe            952  21897
+[1] "Overall Accuracy on Test Set: 63.01 %"
